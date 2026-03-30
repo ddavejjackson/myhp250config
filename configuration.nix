@@ -3,11 +3,6 @@
 {
 
   ##########################################
-  # Allow Unfree Packages                  #
-  ##########################################
-  nixpkgs.config.allowUnfree = true;
-
-  ##########################################
   # Import Hardware Configuration          #
   ##########################################
   imports = [
@@ -24,6 +19,20 @@
   };
 
   ##########################################
+  # ZRAM                                   #
+  ##########################################
+  zramSwap = {
+    enable = true;
+    memoryPercent = 50;
+    algorithm = "zstd";
+  };
+
+  ##########################################
+  # Allow Unfree Packages                  #
+  ##########################################
+  nixpkgs.config.allowUnfree = true;
+
+  ##########################################
   # Boot loader                            #
   ##########################################
   boot.loader.grub = {
@@ -31,6 +40,8 @@
     efiSupport = true;
     device = "nodev";
   }; 
+
+  boot.loader.efi.canTouchEfiVariables = true;
 
   ##########################################
   # Locale (Ireland )                      #
@@ -128,6 +139,7 @@
     man-pages
     texinfo
     efibootmgr
+    alacritty
   ];
 
   fonts.packages = with pkgs; [
@@ -151,4 +163,6 @@
   # System Version                         #
   ##########################################
   system.stateVersion = "25.11";
+
 }
+
