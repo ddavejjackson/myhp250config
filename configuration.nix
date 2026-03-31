@@ -76,18 +76,24 @@
   networking.networkmanager.enable = true;
 
   ##########################################
-  # Desktop (Plasma 6)                     #
+  # Desktop (Cinnamon)                     #
   ##########################################
-  services.xserver.enable = true;
-  services.displayManager.sddm.enable = true;
-  services.desktopManager.plasma6.enable = true;
+  services.xserver = {
+    enable = true;
+
+    desktopManager.cinnamon.enable = true;
+    displayManager.lightdm.enable = true;
+  };
 
   ##########################################
   # Audio (Modern)                         #
   ##########################################
   services.pipewire = {
     enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
     pulse.enable = true;
+    jack.enable = true;
   };
 
   ##########################################
