@@ -215,21 +215,17 @@
     libreoffice-fresh
     obsidian
 
-    # Virtual Machines
-    open-vm-tools
-    vmware-workstation
-    linuxKernel.packages.linux_6_12.vmware
-
     # VPN
     openvpn
 
     # Theming (Windows 11 for familiarity)
-    whitesur-kde
-    whitesur-icon-theme
-    whitesur-cursors
     kdePackages.kde-gtk-config
+    candy-icons
+    sweet
+    sweet-nova
 
     unzip
+    tar
   ];
 
   ##########################################
