@@ -4,100 +4,60 @@
   imports = [
     ./hardware-configuration.nix
   ];
+  
+  boot.loader.grub = {
+    enable = true;
+    device = "nodev";
+    useOSProber = true;
+  };
 
-  system.stateVersion = "25.11";
-
-  # Bootloader
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-
-  # Hostname
-  networking.hostName = "hp250g7";
-
-  # Networking
+  boot.loader.canTouchEfiVariables = true;
+  
   networking.networkmanager.enable = true;
 
-  # Time zone and locale
   time.timeZone = "Europe/Dublin";
+
   i18n.defaultLocale = "en_IE.UTF-8";
 
-  # Keyboard layout
-  services.xserver.xkb = {
-    layout = "ie";
-    variant = "";
+  i18n.extraLocaleSettings = {
+    LC_ADDRESS = "en_IE.UTF-8";
+    LC_IDENTIFICATION = "en_IE.UTF-8";
+    LC_MEASUREMENT = "en_IE.UTF-8";
+    LC_MONETARY = "en_IE.UTF-8";
+    LC_NAME = "en_IE.UTF-8";
+    LC_NUMERIC = "en_IE.UTF-8";
+    LC_PAPER = "en_IE.UTF-8";
+    LC_TELEPHONE = "en_IE.UTF-8";
+    LC_TIME = "en_IE.UTF-8";
   };
 
-  # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  # Graphics
+  services.xserver.enable = true;
+  services.displayManager.sddm.enable = true;
+  services.desktopManager.plasma6.enable = true;
+  services.xserver.videoDrivers = [ "modesetting" ];
+
   hardware.graphics.enable = true;
 
-  # Desktop environment
-  services.xserver.enable = true;
-  services.xserver.displayManager.lightdm.enable = true;
-  services.xserver.desktopManager.cinnamon.enable = true;
-
-  # Audio
-  services.pipewire = {
-    enable = true;
-    pulse.enable = true;
-  };
-
-  # Power management
-  services.power-profiles-daemon.enable = true;
-
-  # Git
-  programs.git = {
-    enable = true;
-    config = {
-      init.defaultBranch = "main";
-      # Set these to your actual details
-      user.name = "Your Name";
-      user.email = "you@example.com";
-    };
-  };
-
-  # Docker
-  virtualisation.docker.enable = true;
-
-  # VirtualBox host
-  virtualisation.virtualbox.host = {
-    enable = true;
-    enableExtensionPack = true;
-  };
-
-  # User account
-  users.users.cyb3r = {
-    isNormalUser = true;
-    description = "Cyb3r";
-    extraGroups = [
-      "wheel"
-      "networkmanager"
-      "docker"
-      "vboxusers"
-    ];
-  };
-
-  # Packages
-  environment.systemPackages = with pkgs; [
+  environment.systemPackages = with pkgs:
+  [
+    vscode
+    git
     wget
     curl
-    vim
-    htop
-    unzip
-
-    google-chrome
-    vscode
-    virtualbox
+    python
+    nodejs
+    npm
   ];
 
-  # Enable flakes and modern nix commands
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  programs.firefox.enable = true;
 
-  # Firewall
-  networking.firewall.enable = true;
-
-  # Sudo
-  security.sudo.enable = true;
+  users.users.cyber = {
+    isNormalUser = true;
+    description = "CYB3R"
+    extraGroups = [ "networkmanager" "wheel" ];
+  };
+ 
+  system.stateVersion = 25.11;
 }
